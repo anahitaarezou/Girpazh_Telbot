@@ -80,7 +80,7 @@ async def ask_model(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return ConversationHandler.END
         context.user_data["model"] = update.message.text.strip()
         await update.message.reply_text(
-            "مرحله ۲️⃣: سال ساخت خودرو را وارد کنید:",
+            "مرحله 1: سال ساخت خودرو را وارد کنید:",
             reply_markup=get_cancel_keyboard()
         )
         return ASK_YEAR
@@ -99,7 +99,7 @@ async def ask_year(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return ConversationHandler.END
         context.user_data["year"] = update.message.text.strip()
         await update.message.reply_text(
-            "مرحله ۳️⃣: شماره شاسی خودرو را وارد کنید:",
+            "مرحله 2: شماره شاسی خودرو را وارد کنید:",
             reply_markup=get_cancel_keyboard()
         )
         return ASK_CHASSIS
@@ -118,7 +118,7 @@ async def ask_chassis(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return ConversationHandler.END
         context.user_data["chassis"] = update.message.text.strip()
         await update.message.reply_text(
-            "مرحله ۴️⃣: نام قطعه موردنظر را وارد کنید:",
+            "مرحله 3: نام قطعه موردنظر را وارد کنید:",
             reply_markup=get_cancel_keyboard()
         )
         return ASK_PART
