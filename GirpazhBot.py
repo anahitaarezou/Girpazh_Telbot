@@ -10,16 +10,25 @@ from datetime import datetime
 import os
 import logging
 
+<<<<<<< HEAD
 # آیدی عددی ادمین (جایگزین با آیدی خودتان)
 ADMIN_ID = 1066552638  # عدد آیدی تلگرام ادمین را اینجا قرار دهید
 
+=======
+>>>>>>> 6f74a77ed4dec8f6a052fb2afb276074b9c5b6e8
 # تنظیم لاگینگ
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
 
+<<<<<<< HEAD
 ASK_MODEL, ASK_YEAR, ASK_PART, ASK_CHASSIS = range(4)
+=======
+# مراحل فرم - تغییر ترتیب (اول مدل، بعد سال، بعد قطعه، آخر شاسی)
+ASK_MODEL, ASK_YEAR, ASK_PART, ASK_CHASSIS = range(4)
+
+>>>>>>> 6f74a77ed4dec8f6a052fb2afb276074b9c5b6e8
 DATA_FILE = "user_requests.csv"
 
 def save_to_csv(user_data, user_id, username):
@@ -49,15 +58,33 @@ def save_to_csv(user_data, user_id, username):
     except Exception as e:
         logging.error(f"Error saving to CSV: {e}")
 
+<<<<<<< HEAD
 def get_navigation_markup(current_step):
     keyboard = []
     if current_step > ASK_MODEL:
         keyboard.append([InlineKeyboardButton("⬅️ بازگشت به مرحله قبل", callback_data="prev_step")])
     keyboard.append([InlineKeyboardButton("🔙 بازگشت به منوی اصلی", callback_data="main_menu")])
+=======
+# دکمه‌های اینلاین برای بازگشت (جایگزین دکمه کیبورد)
+def get_navigation_markup(current_step):
+    keyboard = []
+    
+    # دکمه بازگشت به مرحله قبل فقط از مرحله دوم به بعد نشان داده شود
+    if current_step > ASK_MODEL:
+        keyboard.append([InlineKeyboardButton("⬅️ بازگشت به مرحله قبل", callback_data="prev_step")])
+    
+    # دکمه بازگشت به منوی اصلی همیشه نشان داده شود
+    keyboard.append([InlineKeyboardButton("🔙 بازگشت به منوی اصلی", callback_data="main_menu")])
+    
+>>>>>>> 6f74a77ed4dec8f6a052fb2afb276074b9c5b6e8
     return InlineKeyboardMarkup(keyboard)
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+<<<<<<< HEAD
     context.user_data.clear()
+=======
+    context.user_data.clear()  # پاک کردن داده‌های قبلی
+>>>>>>> 6f74a77ed4dec8f6a052fb2afb276074b9c5b6e8
     user = update.effective_user
     name = user.first_name
 
@@ -76,26 +103,57 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.callback_query.message.edit_text(welcome_message, reply_markup=reply_markup)
 
 async def ask_model(update: Update, context: ContextTypes.DEFAULT_TYPE):
+<<<<<<< HEAD
     context.user_data["current_step"] = ASK_MODEL
     query = update.callback_query
     if query:
         await query.answer()
     message_text = "مرحله ۱: مدل خودرو را وارد کنید:"
     reply_markup = get_navigation_markup(ASK_MODEL)
+=======
+    logging.info(f"Current step: {context.user_data.get('current_step')}")
+    # مقداردهی اولیه رحله جاری
+    context.user_data["current_step"] = ASK_MODEL
+    
+    query = update.callback_query
+    if query:
+        await query.answer()
+    
+    message_text = "مرحله ۱: مدل خودرو را وارد کنید:"
+    reply_markup = get_navigation_markup(ASK_MODEL)
+    
+>>>>>>> 6f74a77ed4dec8f6a052fb2afb276074b9c5b6e8
     if update.message:
         await update.message.reply_text(message_text, reply_markup=reply_markup)
     elif query:
         await query.edit_message_text(message_text, reply_markup=reply_markup)
+<<<<<<< HEAD
     return ASK_MODEL
 
+=======
+    
+    return ASK_MODEL
+
+# مرحله ۲: سال ساخت
+>>>>>>> 6f74a77ed4dec8f6a052fb2afb276074b9c5b6e8
 async def ask_year(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     if query:
         await query.answer()
+<<<<<<< HEAD
         return ASK_MODEL
     if update.message and update.message.text:
         context.user_data["model"] = update.message.text.strip()
         context.user_data["current_step"] = ASK_YEAR
+=======
+        # اجازه می‌دهیم button_handler پردازش کند
+        return ASK_MODEL
+
+    if update.message and update.message.text:
+        context.user_data["model"] = update.message.text.strip()
+        context.user_data["current_step"] = ASK_YEAR
+        
+>>>>>>> 6f74a77ed4dec8f6a052fb2afb276074b9c5b6e8
         await update.message.reply_text(
             "مرحله ۲: سال ساخت خودرو را وارد کنید:",
             reply_markup=get_navigation_markup(ASK_YEAR)
@@ -112,10 +170,20 @@ async def ask_part(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     if query:
         await query.answer()
+<<<<<<< HEAD
         return ASK_YEAR
     if update.message and update.message.text:
         context.user_data["year"] = update.message.text.strip()
         context.user_data["current_step"] = ASK_PART
+=======
+        # اجازه می‌دهیم button_handler پردازش کند
+        return ASK_YEAR
+
+    if update.message and update.message.text:
+        context.user_data["year"] = update.message.text.strip()
+        context.user_data["current_step"] = ASK_PART
+        
+>>>>>>> 6f74a77ed4dec8f6a052fb2afb276074b9c5b6e8
         await update.message.reply_text(
             "مرحله ۳: نام قطعه موردنظر را وارد کنید:",
             reply_markup=get_navigation_markup(ASK_PART)
@@ -132,10 +200,20 @@ async def ask_chassis(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     if query:
         await query.answer()
+<<<<<<< HEAD
         return ASK_PART
     if update.message and update.message.text:
         context.user_data["part"] = update.message.text.strip()
         context.user_data["current_step"] = ASK_CHASSIS
+=======
+        # اجازه می‌دهیم button_handler پردازش کند
+        return ASK_PART
+
+    if update.message and update.message.text:
+        context.user_data["part"] = update.message.text.strip()
+        context.user_data["current_step"] = ASK_CHASSIS
+        
+>>>>>>> 6f74a77ed4dec8f6a052fb2afb276074b9c5b6e8
         await update.message.reply_text(
             "مرحله ۴: شماره شاسی خودرو را وارد کنید:",
             reply_markup=get_navigation_markup(ASK_CHASSIS)
@@ -147,6 +225,7 @@ async def ask_chassis(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=get_navigation_markup(ASK_PART)
         )
         return ASK_PART
+<<<<<<< HEAD
 
 async def finalize(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
@@ -156,6 +235,21 @@ async def finalize(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message and update.message.text:
         user = update.effective_user
         context.user_data["chassis"] = update.message.text.strip()
+=======
+# ثبت نهایی اطلاعات
+async def finalize(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    if query:
+        await query.answer()
+        # اجازه می‌دهیم button_handler پردازش کند
+        return ASK_CHASSIS
+
+    if update.message and update.message.text:
+        user = update.effective_user
+        context.user_data["chassis"] = update.message.text.strip()
+
+        # ذخیره اطلاعات
+>>>>>>> 6f74a77ed4dec8f6a052fb2afb276074b9c5b6e8
         save_to_csv(
             user_data=context.user_data,
             user_id=user.id,
@@ -190,6 +284,13 @@ async def finalize(update: Update, context: ContextTypes.DEFAULT_TYPE):
         except Exception as e:
             logging.error(f"Error sending message to admin: {e}")
 
+<<<<<<< HEAD
+=======
+        keyboard = [[InlineKeyboardButton("🔙 بازگشت به منوی اصلی", callback_data="main_menu")]]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        
+        await update.message.reply_text(response, reply_markup=reply_markup)
+>>>>>>> 6f74a77ed4dec8f6a052fb2afb276074b9c5b6e8
         return ConversationHandler.END
     else:
         await update.message.reply_text(
@@ -197,12 +298,17 @@ async def finalize(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=get_navigation_markup(ASK_CHASSIS)
         )
         return ASK_CHASSIS
+<<<<<<< HEAD
 
+=======
+# مدیریت دکمه‌ها
+>>>>>>> 6f74a77ed4dec8f6a052fb2afb276074b9c5b6e8
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
 
     if query.data == "about":
+<<<<<<< HEAD
         about_text = (
             "📌 گیرپاژ، نتیجه‌ی ۵۰ سال تجربه در بازار قطعات یدکی و بهره‌گیری از فناوری‌های روز است.\n"
             "مجموعه‌ای از قطعات دارای شناسه کالا، کد رهگیری و گارانتی معتبر، اصالت، کیفیت و قیمت مناسب را به شما ارائه می‌دهد.\n"
@@ -218,12 +324,19 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             parse_mode="HTML"
         )
         return ConversationHandler.END
+=======
+        await query.edit_message_text(
+            "📌 این ربات جهت ثبت سفارش قطعات خودروی شما طراحی شده است.",
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 بازگشت", callback_data="main_menu")]])
+        )
+>>>>>>> 6f74a77ed4dec8f6a052fb2afb276074b9c5b6e8
     elif query.data == "main_menu":
         await start(update, context)
         return ConversationHandler.END
     elif query.data == "start_form":
         return await ask_model(update, context)
     elif query.data == "show_phone":
+<<<<<<< HEAD
         keyboard = [
             [InlineKeyboardButton("🌐 صفحه تماس سایت", url="https://pm2.girpazh.com/contact")],
             [InlineKeyboardButton("🔙 بازگشت به منوی اصلی", callback_data="main_menu")]
@@ -238,6 +351,18 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif query.data == "prev_step":
         current_step = context.user_data.get("current_step", ASK_MODEL)
         if current_step == ASK_YEAR:
+=======
+        await query.edit_message_text(
+            "☎ برای تماس با پشتیبانی:\n📱 0992 864 2905",
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 بازگشت", callback_data="main_menu")]])
+        )
+    elif query.data == "prev_step":
+        current_step = context.user_data.get("current_step", ASK_MODEL)
+        logging.info(f"Prev step requested, current_step: {current_step}")
+        
+        if current_step == ASK_YEAR:
+            logging.info("Returning to ASK_MODEL")
+>>>>>>> 6f74a77ed4dec8f6a052fb2afb276074b9c5b6e8
             await query.edit_message_text(
                 "مرحله ۱: مدل خودرو را وارد کنید:",
                 reply_markup=get_navigation_markup(ASK_MODEL)
@@ -245,6 +370,10 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             context.user_data["current_step"] = ASK_MODEL
             return ASK_MODEL
         elif current_step == ASK_PART:
+<<<<<<< HEAD
+=======
+            logging.info("Returning to ASK_YEAR")
+>>>>>>> 6f74a77ed4dec8f6a052fb2afb276074b9c5b6e8
             await query.edit_message_text(
                 "مرحله ۲: سال ساخت خودرو را وارد کنید:",
                 reply_markup=get_navigation_markup(ASK_YEAR)
@@ -252,6 +381,10 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             context.user_data["current_step"] = ASK_YEAR
             return ASK_YEAR
         elif current_step == ASK_CHASSIS:
+<<<<<<< HEAD
+=======
+            logging.info("Returning to ASK_PART")
+>>>>>>> 6f74a77ed4dec8f6a052fb2afb276074b9c5b6e8
             await query.edit_message_text(
                 "مرحله ۳: نام قطعه موردنظر را وارد کنید:",
                 reply_markup=get_navigation_markup(ASK_PART)
@@ -259,6 +392,10 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             context.user_data["current_step"] = ASK_PART
             return ASK_PART
         else:
+<<<<<<< HEAD
+=======
+            logging.info("No previous step, returning to main menu")
+>>>>>>> 6f74a77ed4dec8f6a052fb2afb276074b9c5b6e8
             await start(update, context)
             return ConversationHandler.END
 
@@ -269,6 +406,7 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
 if __name__ == '__main__':
     app = ApplicationBuilder().token("7724167611:AAGYSWUpQK90jrF57DRk5mto32dn65GuosU").build()  # توکن ربات خود را جایگزین کنید
 
+    # تغییر در ترتیب حالت‌ها (ASK_PART و ASK_CHASSIS جابجا شدند)
     conv_handler = ConversationHandler(
         entry_points=[CallbackQueryHandler(button_handler, pattern="^start_form$")],
         states={
